@@ -22,3 +22,5 @@ Overall Restaurant Data: A comprehensive plot showcasing various attributes of r
 Bangalore Restaurants: A specific plot focusing on restaurants in Bangalore, highlighting the number of restaurants with a rating of 4 or above. This visualization offers insights into the quality of restaurants in a specific city.
 
 Top Cities with 4+ Rated Restaurants: A plot illustrating the cities with the highest number of restaurants rated 4 or above. This visualization aids in understanding which cities offer a higher concentration of highly-rated dining options.
+
+# Swiggy dataset link: https://www.kaggle.com/datasets/rrkcoder/swiggy-restaurants-dataset
