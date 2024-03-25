@@ -93,6 +93,78 @@ df['Price for 2 (in ₹)'] = df['Price for 2 (in ₹)'].apply((pf2))
 df['Offer Name'] = df['Offer Name'].str.replace('\n', ', ')
 
 
+# Plot to show the number of restaurants that are pure veg
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(10, 10))
+sns.countplot(data=df, x='Pure Veg', palette='inferno')  # Passing data=df
+plt.show()
+
+# Plot to show the total number of restaurants in each city in the dataset
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+plt.figure(figsize=(100,80))
+sns.countplot(data=df, x='Location', palette='Set3')  # You can change 'Set3' to any other palette
+plt.xticks(rotation=90)
+plt.show()
+
+# Plot to show the total number of restaurants in Bangalore and to show the frequency of the rating for  the restaurants
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+bangalore_df = df[df['Location'] == 'Bangalore'] # Filter DataFrame to include only rows with location 'Bangalore'
+
+plt.figure(figsize=(10, 6))
+sns.histplot(bangalore_df['Rating'], bins=20, kde=True, color='skyblue')
+plt.title('Distribution of Ratings for Restaurants in Bangalore')
+plt.xlabel('Rating')
+plt.ylabel('Frequency')
+plt.show()
+
+# Plot to show the top cities with the most number of 4+ ratings
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+high_rated_restaurants = df[df['Rating'] >= 4] # Filter the DataFrame for restaurants with ratings 4 or higher
+
+city_restaurant_counts = high_rated_restaurants.groupby('Location').size().reset_index(name='restaurant_count') # Group by location (assuming 'Location' column represents cities) and count the number of restaurants in each city
+
+sorted_cities = city_restaurant_counts.sort_values(by='restaurant_count', ascending=False) # Sort the cities by the number of highly rated restaurants
+
+plt.figure(figsize=(12, 8))
+sns.barplot(data=sorted_cities.head(10), x='restaurant_count', y='Location', palette='viridis')
+plt.xlabel('Number of Highly Rated Restaurants')
+plt.ylabel('City')
+plt.title('Top Cities with the Most Number of Restaurants with 4+ Ratings')
+plt.show()
+
+# Plot to show the top cuisines among the highly-rated restaurants
+
+import seaborn as sns
+import matplotlib.pyplot as plt
+from collections import Counter
+
+high_rated_restaurants = df[df['Rating'] >= 4] # Filter the DataFrame for restaurants with ratings 4 or higher
+
+cuisine_list = high_rated_restaurants['Cuisines'].str.split(',').sum() # Extract the 'Cuisines' column and split into individual cuisine entries
+
+cuisine_counts = Counter(cuisine_list) # Count the occurrences of each cuisine
+
+cuisine_df = pd.DataFrame.from_dict(cuisine_counts, orient='index').reset_index() # Convert the Counter to a DataFrame
+cuisine_df.columns = ['Cuisine', 'Frequency']
+
+sorted_cuisines = cuisine_df.sort_values(by='Frequency', ascending=False) # Sort the cuisines by frequency
+
+plt.figure(figsize=(12, 8))
+sns.barplot(data=sorted_cuisines.head(10), x='Frequency', y='Cuisine', palette='muted')
+plt.xlabel('Frequency')
+plt.ylabel('Cuisine')
+plt.title('Top Cuisines Among Highly Rated Restaurants')
+plt.show()
+
 
 
 
